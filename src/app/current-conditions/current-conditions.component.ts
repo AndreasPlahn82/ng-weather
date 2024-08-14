@@ -1,7 +1,7 @@
 import {Component, inject, Signal} from '@angular/core';
-import {WeatherService} from "../weather.service";
-import {LocationService} from "../location.service";
-import {Router} from "@angular/router";
+import {WeatherService} from '../weather.service';
+import {LocationService} from '../location.service';
+import {Router} from '@angular/router';
 import {ConditionsAndZip} from '../conditions-and-zip.type';
 
 @Component({
@@ -11,12 +11,12 @@ import {ConditionsAndZip} from '../conditions-and-zip.type';
 })
 export class CurrentConditionsComponent {
 
-  private weatherService = inject(WeatherService);
-  private router = inject(Router);
   protected locationService = inject(LocationService);
+  private weatherService = inject(WeatherService);
   protected currentConditionsByZip: Signal<ConditionsAndZip[]> = this.weatherService.getCurrentConditions();
+  private router = inject(Router);
 
-  showForecast(zipcode : string){
+  showForecast(zipcode: string) {
     this.router.navigate(['/forecast', zipcode])
   }
 }

@@ -1,33 +1,51 @@
-import { Injectable } from '@angular/core';
-import {WeatherService} from "./weather.service";
+import {Injectable, signal} from '@angular/core';
 
-export const LOCATIONS : string = "locations";
+export const LOCATIONS = 'locations';
 
 @Injectable()
 export class LocationService {
 
-  locations : string[] = [];
+  locationsEmitter = signal<string[]>([]);
+  private readonly locations: string[] = [];
 
-  constructor(private weatherService : WeatherService) {
-    let locString = localStorage.getItem(LOCATIONS);
-    if (locString)
+  constructor() {
+    const locString = sessionStorage.getItem(LOCATIONS);
+    if (locString) {
       this.locations = JSON.parse(locString);
-    for (let loc of this.locations)
-      this.weatherService.addCurrentConditions(loc);
-  }
-
-  addLocation(zipcode : string) {
-    this.locations.push(zipcode);
-    localStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
-    this.weatherService.addCurrentConditions(zipcode);
-  }
-
-  removeLocation(zipcode : string) {
-    let index = this.locations.indexOf(zipcode);
-    if (index !== -1){
-      this.locations.splice(index, 1);
-      localStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
-      this.weatherService.removeCurrentConditions(zipcode);
     }
+    for (const loc of this.locations) {
+      this.emitAdded(loc);
+    }
+  }
+
+  addLocation(zipcode: string) {
+    // store in sessionStorage
+    if (this.locations.indexOf(zipcode) === -1) {
+      this.locations.push(zipcode);
+      sessionStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
+      // notify subscribers
+      this.emitAdded(zipcode);
+    }
+  }
+
+  removeLocation(zipcode: string) {
+    // remove from sessionStorage
+    const index = this.locations.indexOf(zipcode);
+    if (index !== -1) {
+      this.locations.splice(index, 1);
+      sessionStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
+      // notify subscribers
+      this.emitRemoved(zipcode);
+    }
+  }
+
+  private emitAdded(location: string) {
+    // add zipcode
+    this.locationsEmitter.update(locations => [...locations, location]);
+  }
+
+  private emitRemoved(zipcode: string) {
+    // remove zipcode
+    this.locationsEmitter.update(locations => locations.filter(loc => loc !== zipcode));
   }
 }

@@ -1,0 +1,39 @@
+ul {
+  display: inline-flex;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  cursor: pointer;
+}
+
+.active {
+  background-color: #eee;
+}
+
+
+li {
+  border: 1px solid #eee;
+  padding: 0.5em;
+  border-radius: 10px 10px 0 0;
+  margin-inline-end: 0.2em;
+}
+
+.close {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 0.2em;
+  margin-inline-start: 1em;
+  cursor: pointer;
+  font-size: 1em;
+  color: #777;
+  opacity: 0.8;
+  min-width: 1.5em;
+}
+
+.tab-content {
+  padding: 0.5em;
+  border: 1px solid #eee;
+}

@@ -2,5 +2,18 @@
 
   <app-zipcode-entry> </app-zipcode-entry>
   <app-current-conditions></app-current-conditions>
-
+  
+  
+  <hr>
+  
+  <app-tabs [tabs]="[tab1, tab2]">
+    <ng-template #tab1>
+      <!-- content for tab 1 -->
+      <p>tab 1 !</p>
+    </ng-template>
+    <ng-template #tab2>
+      <!-- content for tab 2 -->
+      <p>tab 2 !</p>
+    </ng-template>
+  </app-tabs>
 </div>

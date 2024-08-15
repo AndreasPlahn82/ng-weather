@@ -19,7 +19,7 @@ export class CacheService {
     const cachedItem = cache[key];
     
     if (!cachedItem) {
-      console.log('no cache for key:' + key);
+      console.log(`no cache for key:'${key}'`);
       return undefined;
     }
     const cacheExpired = cachedItem.expiresAt < Date.now();
@@ -29,7 +29,7 @@ export class CacheService {
       return cachedItem.value as T;
     } else {
       if (cacheExpired) {
-        console.log(`cache expired for key:${key}`);
+        console.log(`cache expired for key:'${key}'`);
       }
       // return undefined if cache is expired or empty
       return undefined;
@@ -47,11 +47,13 @@ export class CacheService {
     localStorage.removeItem(this.cacheKey);
   }
   
+  // Read from the cache store (localstorage)
   private getCache(): { [key: string]: CachedItem<any> } {
     const cache = localStorage.getItem(this.cacheKey);
     return cache ? JSON.parse(cache) : {};
   }
   
+  // Save to the cache store (localstorage)
   private saveCache(cache: { [key: string]: CachedItem<any> }): void {
     localStorage.setItem(this.cacheKey, JSON.stringify(cache));
   }

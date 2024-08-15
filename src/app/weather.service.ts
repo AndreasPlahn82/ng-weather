@@ -1,4 +1,4 @@
-import {computed, Injectable, Signal, signal} from '@angular/core';
+import {Injectable, Signal, signal} from '@angular/core';
 import {Observable} from 'rxjs';
 
 import {HttpClient} from '@angular/common/http';
@@ -26,10 +26,17 @@ export class WeatherService {
   }
 
   addCurrentConditions(zipcode: string): void {
-    // Here we make a request to get the current conditions data from the API. Note the use of backticks
-    // and an expression to insert the zipcode
     this.http.get<CurrentConditions>(`${WeatherService.URL}/weather?zip=${zipcode},us&units=imperial&APPID=${WeatherService.APPID}`)
-    .subscribe(data => this.currentConditions.update(conditions => [...conditions, {zip: zipcode, data}]));
+    .subscribe(
+      response => {
+        debugger;
+        this.currentConditions.update(conditions => [...conditions, {zip: zipcode, data: response}]);
+      },
+      error => {
+        alert(`Failed to retrieve current conditions for ${zipcode}: ${error.message}`);
+        this.removeCurrentConditions(zipcode);
+      }
+    );
   }
 
   removeCurrentConditions(zipcode: string) {

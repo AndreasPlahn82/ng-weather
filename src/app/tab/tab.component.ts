@@ -13,5 +13,7 @@ import {CommonModule} from '@angular/common';
 export class TabComponent {
   @Input()
   tabTitle: string;
-  active: boolean;
+
+  @Input()
+  active = false;
 }

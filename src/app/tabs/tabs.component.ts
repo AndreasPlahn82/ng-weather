@@ -1,4 +1,4 @@
-import {AfterContentInit, Component, ContentChildren, QueryList} from '@angular/core';
+import {Component, ContentChildren, QueryList} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TabComponent} from '../tab/tab.component';
 
@@ -11,10 +11,11 @@ import {TabComponent} from '../tab/tab.component';
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.css'
 })
-export class TabsComponent implements AfterContentInit {
+export class TabsComponent {
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
 
-  ngAfterContentInit() {
+  ngAfterContentInit(): void {
+
     // set first tab active on init
     if (this.tabs.length > 0) {
       this.selectTab(this.tabs.first);
@@ -27,4 +28,5 @@ export class TabsComponent implements AfterContentInit {
     // activate the selected tab
     tab.active = true;
   }
+
 }

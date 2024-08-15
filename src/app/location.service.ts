@@ -34,7 +34,7 @@ export class LocationService {
     // remove from sessionStorage
     const index = this.locations.indexOf(zipcode);
     if (index > -1) {
-      this.locations = this.locations.splice(index, 1);
+      this.locations.splice(index, 1);
       sessionStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
       // notify subscribers
       this.emitRemoved(zipcode);

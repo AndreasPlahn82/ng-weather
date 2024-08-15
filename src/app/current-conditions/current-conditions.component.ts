@@ -12,7 +12,7 @@ import {ConditionsAndZip} from '../conditions-and-zip.type';
 export class CurrentConditionsComponent {
 
   protected locationService = inject(LocationService);
-  private weatherService = inject(WeatherService);
+  protected weatherService = inject(WeatherService);
   protected currentConditionsByZip: Signal<ConditionsAndZip[]> = this.weatherService.getCurrentConditions();
   private router = inject(Router);
 

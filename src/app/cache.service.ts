@@ -9,7 +9,7 @@ interface CachedItem<T> {
   providedIn: 'root'
 })
 export class CacheService {
-  private readonly CACHE_DURATION_MS = 60 * 1000; // 10 seconds
+  private readonly CACHE_DURATION_MS = 5 * 1000; // 5 seconds
   // private readonly CACHE_DURATION_MS = 2 * 60 * 60 * 1000; // 2 hours
   private cacheKey = 'cache';
   

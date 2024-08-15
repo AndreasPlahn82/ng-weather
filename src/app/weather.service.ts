@@ -6,7 +6,6 @@ import {CurrentConditions} from './current-conditions/current-conditions.type';
 import {ConditionsAndZip} from './conditions-and-zip.type';
 import {Forecast} from './forecasts-list/forecast.type';
 import {LocationService} from './location.service';
-import {toObservable} from '@angular/core/rxjs-interop';
 
 @Injectable()
 export class WeatherService {
@@ -18,11 +17,11 @@ export class WeatherService {
 
   constructor(private http: HttpClient, locationService: LocationService) {
 
-    toObservable(locationService.locationRemovedEmitter).subscribe(zipcode => {
+    locationService.locationRemovedEmitter.subscribe(zipcode => {
       this.removeCurrentConditions(zipcode);
     });
     
-    toObservable(locationService.locationAddedEmitter).subscribe(zipcode => {
+    locationService.locationAddedEmitter.subscribe(zipcode => {
       this.addCurrentConditions(zipcode);
     });
   }

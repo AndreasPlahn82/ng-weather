@@ -12,6 +12,7 @@ export class ZipcodeEntryComponent {
 
   addLocation(zipcode: string) {
     if (!zipcode) {
+      alert('Please enter a zipcode');
       return;
     }
     // zipcode must be numeric and max 6 digits

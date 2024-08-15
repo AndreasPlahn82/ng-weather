@@ -1,13 +1,14 @@
-import {Injectable, signal} from '@angular/core';
+import {Injectable} from '@angular/core';
+import {Subject} from 'rxjs';
 
 export const LOCATIONS = 'locations';
 
 @Injectable()
 export class LocationService {
 
-  locationRemovedEmitter = signal<string>(undefined);
-  locationAddedEmitter = signal<string>(undefined);
-  private readonly locations: string[] = [];
+  locationRemovedEmitter: Subject<string> = new Subject<string>();
+  locationAddedEmitter: Subject<string> = new Subject<string>();
+  private locations: string[] = [];
 
   constructor() {
     const locString = sessionStorage.getItem(LOCATIONS);
@@ -21,7 +22,7 @@ export class LocationService {
 
   addLocation(zipcode: string) {
     // store in sessionStorage
-    if (this.locations.indexOf(zipcode) === -1) {
+    if (this.locations.indexOf(zipcode) < 0) {
       this.locations.push(zipcode);
       sessionStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
       // notify subscribers
@@ -30,11 +31,10 @@ export class LocationService {
   }
 
   removeLocation(zipcode: string) {
-    debugger;
     // remove from sessionStorage
     const index = this.locations.indexOf(zipcode);
-    if (index !== -1) {
-      this.locations.splice(index, 1);
+    if (index > -1) {
+      this.locations = this.locations.splice(index, 1);
       sessionStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
       // notify subscribers
       this.emitRemoved(zipcode);
@@ -43,11 +43,11 @@ export class LocationService {
 
   private emitAdded(zipcode: string) {
     // add zipcode
-    this.locationAddedEmitter.set(zipcode);
+    this.locationAddedEmitter.next(zipcode);
   }
 
   private emitRemoved(zipcode: string) {
     // remove zipcode
-    this.locationRemovedEmitter.set(zipcode);
+    this.locationRemovedEmitter.next(zipcode);
   }
 }

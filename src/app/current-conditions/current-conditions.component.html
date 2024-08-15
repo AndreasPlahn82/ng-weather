@@ -3,6 +3,7 @@
     *ngFor="let location of currentConditionsByZip(); let i = index"
     tabTitle="{{ location.data.name }} ({{ location.zip }})"
     [active]="i === 0"
+    (onCloseTab)="locationService.removeLocation(location.zip)"
 >
     <div class="well flex">
       <div>
@@ -17,7 +18,6 @@
         <p>
           <a [routerLink]="['/forecast', location.zip]">Show 5-day forecast for {{ location.data.name }}</a>
         </p>
-        <span class="close" (click)="locationService.removeLocation(location.zip)">&times;</span>
       </div>
       
       <div>

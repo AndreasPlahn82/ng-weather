@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
 @Component({
@@ -13,7 +13,8 @@ import {CommonModule} from '@angular/common';
 export class TabComponent {
   @Input()
   tabTitle: string;
-
   @Input()
   active = false;
+  @Output()
+  onCloseTab = new EventEmitter();
 }

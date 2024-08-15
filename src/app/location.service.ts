@@ -11,7 +11,7 @@ export class LocationService {
   private locations: string[] = [];
 
   constructor() {
-    const locString = sessionStorage.getItem(LOCATIONS);
+    const locString = localStorage.getItem(LOCATIONS);
     if (locString) {
       this.locations = JSON.parse(locString);
     }
@@ -21,21 +21,21 @@ export class LocationService {
   }
 
   addLocation(zipcode: string) {
-    // store in sessionStorage
+    // store in localStorage
     if (this.locations.indexOf(zipcode) < 0) {
       this.locations.push(zipcode);
-      sessionStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
+      localStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
       // notify subscribers
       this.emitAdded(zipcode);
     }
   }
 
   removeLocation(zipcode: string) {
-    // remove from sessionStorage
+    // remove from localStorage
     const index = this.locations.indexOf(zipcode);
     if (index > -1) {
       this.locations.splice(index, 1);
-      sessionStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
+      localStorage.setItem(LOCATIONS, JSON.stringify(this.locations));
       // notify subscribers
       this.emitRemoved(zipcode);
     }

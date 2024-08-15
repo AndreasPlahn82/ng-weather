@@ -18,11 +18,13 @@ export class WeatherService {
 
   constructor(private http: HttpClient, locationService: LocationService) {
 
-    toObservable(locationService.locationsEmitter).subscribe(zipcodes => {
-      zipcodes.forEach(zipcode => {
-        this.addCurrentConditions(zipcode);
-      });
-    })
+    toObservable(locationService.locationRemovedEmitter).subscribe(zipcode => {
+      this.removeCurrentConditions(zipcode);
+    });
+    
+    toObservable(locationService.locationAddedEmitter).subscribe(zipcode => {
+      this.addCurrentConditions(zipcode);
+    });
   }
 
   addCurrentConditions(zipcode: string): void {
@@ -76,5 +78,4 @@ export class WeatherService {
       return WeatherService.ICON_URL + 'art_clear.png';
     }
   }
-
 }

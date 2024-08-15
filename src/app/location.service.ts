@@ -5,7 +5,8 @@ export const LOCATIONS = 'locations';
 @Injectable()
 export class LocationService {
 
-  locationsEmitter = signal<string[]>([]);
+  locationRemovedEmitter = signal<string>(undefined);
+  locationAddedEmitter = signal<string>(undefined);
   private readonly locations: string[] = [];
 
   constructor() {
@@ -29,6 +30,7 @@ export class LocationService {
   }
 
   removeLocation(zipcode: string) {
+    debugger;
     // remove from sessionStorage
     const index = this.locations.indexOf(zipcode);
     if (index !== -1) {
@@ -39,13 +41,13 @@ export class LocationService {
     }
   }
 
-  private emitAdded(location: string) {
+  private emitAdded(zipcode: string) {
     // add zipcode
-    this.locationsEmitter.update(locations => [...locations, location]);
+    this.locationAddedEmitter.set(zipcode);
   }
 
   private emitRemoved(zipcode: string) {
     // remove zipcode
-    this.locationsEmitter.update(locations => locations.filter(loc => loc !== zipcode));
+    this.locationRemovedEmitter.set(zipcode);
   }
 }

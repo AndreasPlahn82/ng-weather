@@ -16,9 +16,10 @@ export class ZipcodeEntryComponent {
     }
     // zipcode must be numeric and max 6 digits
     if (!/^\d{1,6}$/.test(zipcode)) {
+      alert('Zipcode must be numeric and max 6 digits');
       return;
     }
-
+    
     this.service.addLocation(zipcode);
   }
 

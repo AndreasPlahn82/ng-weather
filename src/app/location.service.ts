@@ -8,7 +8,7 @@ export class LocationService {
 
   locationRemovedEmitter: Subject<string> = new Subject<string>();
   locationAddedEmitter: Subject<string> = new Subject<string>();
-  private locations: string[] = [];
+  locations: string[] = [];
 
   constructor() {
     const locString = localStorage.getItem(LOCATIONS);

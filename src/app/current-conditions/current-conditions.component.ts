@@ -13,7 +13,7 @@ export class CurrentConditionsComponent {
 
   protected locationService = inject(LocationService);
   protected weatherService = inject(WeatherService);
-  protected currentConditionsByZip: Signal<ConditionsAndZip[]> = this.weatherService.getCurrentConditions();
+  protected currentConditionsByZip: Signal<ConditionsAndZip[]> = this.weatherService.getCurrentConditions(this.locationService.locations);
   private router = inject(Router);
 
   showForecast(zipcode: string) {

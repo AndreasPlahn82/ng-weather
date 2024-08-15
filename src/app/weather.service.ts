@@ -9,14 +9,14 @@ import {LocationService} from './location.service';
 
 @Injectable()
 export class WeatherService {
-
+  
   static URL = 'https://api.openweathermap.org/data/2.5';
   static APPID = '5a4b2d457ecbef9eb2a71e480b947604';
   static ICON_URL = 'https://raw.githubusercontent.com/udacity/Sunshine-Version-2/sunshine_master/app/src/main/res/drawable-hdpi/';
   private currentConditions = signal<ConditionsAndZip[]>([]);
-
+  
   constructor(private http: HttpClient, locationService: LocationService) {
-
+    
     locationService.locationRemovedEmitter.subscribe(zipcode => {
       this.removeCurrentConditions(zipcode);
     });
@@ -25,7 +25,7 @@ export class WeatherService {
       this.addCurrentConditions(zipcode);
     });
   }
-
+  
   addCurrentConditions(zipcode: string): void {
     this.http.get<CurrentConditions>(`${WeatherService.URL}/weather?zip=${zipcode},us&units=imperial&APPID=${WeatherService.APPID}`)
     .subscribe(
@@ -38,7 +38,7 @@ export class WeatherService {
       }
     );
   }
-
+  
   removeCurrentConditions(zipcode: string) {
     this.currentConditions.update(conditions => {
       for (const i in conditions) {
@@ -49,17 +49,20 @@ export class WeatherService {
       return conditions;
     })
   }
-
-  getCurrentConditions(): Signal<ConditionsAndZip[]> {
+  
+  getCurrentConditions(locations: string[]): Signal<ConditionsAndZip[]> {
+    if (locations.length > 0) {
+      locations.forEach(zipcode => this.addCurrentConditions(zipcode));
+    }
     return this.currentConditions.asReadonly();
   }
-
+  
   getForecast(zipcode: string): Observable<Forecast> {
     // Here we make a request to get the forecast data from the API. Note the use of backticks and an expression to insert the zipcode
     return this.http.get<Forecast>(`${WeatherService.URL}/forecast/daily?zip=${zipcode},us&units=imperial&cnt=5&APPID=${WeatherService.APPID}`);
-
+    
   }
-
+  
   getWeatherIcon(id: number): string {
     if (id >= 200 && id <= 232) {
       return WeatherService.ICON_URL + 'art_storm.png';

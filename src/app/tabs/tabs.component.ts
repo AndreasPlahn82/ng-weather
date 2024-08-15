@@ -1,4 +1,4 @@
-import {AfterContentInit, ChangeDetectorRef, Component, ContentChildren, QueryList} from '@angular/core';
+import {AfterContentInit, Component, ContentChildren, QueryList} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {TabComponent} from '../tab/tab.component';
 
@@ -14,11 +14,7 @@ import {TabComponent} from '../tab/tab.component';
 export class TabsComponent implements AfterContentInit {
   @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
   
-  constructor() {
-  }
-  
   ngAfterContentInit(): void {
-    
     // set first tab active on init
     if (this.tabs.length > 0) {
       this.selectTab(this.tabs.first);
@@ -33,7 +29,9 @@ export class TabsComponent implements AfterContentInit {
   }
   
   removeTab(tab: TabComponent) {
+    // emit event to close the tab
     tab.onCloseTab.emit();
+    // remove the tab from the list
     this.tabs.reset( this.tabs.filter(t => t !== tab));
   }
 }

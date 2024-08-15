@@ -1,5 +1,6 @@
-import {Component, EventEmitter, Input, Output, TemplateRef} from '@angular/core';
+import {AfterContentInit, Component, ContentChildren, QueryList} from '@angular/core';
 import {CommonModule} from '@angular/common';
+import {TabComponent} from '../tab/tab.component';
 
 @Component({
   selector: 'app-tabs',
@@ -10,24 +11,20 @@ import {CommonModule} from '@angular/common';
   templateUrl: './tabs.component.html',
   styleUrl: './tabs.component.css'
 })
-export class TabsComponent {
-  @Input() tabs: TemplateRef<any>[] = [];
-  @Output() tabClosed = new EventEmitter<number>();
+export class TabsComponent implements AfterContentInit {
+  @ContentChildren(TabComponent) tabs: QueryList<TabComponent>;
 
-  selectedIndex = 0;
-
-  afterViewInit() {
-    debugger;
-    this.selectTab(0);
+  ngAfterContentInit() {
+    // set first tab active on init
+    if (this.tabs.length > 0) {
+      this.selectTab(this.tabs.first);
+    }
   }
 
-  selectTab(index: number) {
-    this.selectedIndex = index;
-  }
-
-  closeTab(index: number) {
-    this.tabs.splice(index, 1);
-    this.selectedIndex = Math.max(0, this.selectedIndex - 1);
-    this.tabClosed.emit(index);
+  selectTab(tab: TabComponent) {
+    // set all tabs as inactive
+    this.tabs.toArray().forEach(tab => tab.active = false);
+    // activate the selected tab
+    tab.active = true;
   }
 }

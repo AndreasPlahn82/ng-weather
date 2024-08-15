@@ -1,15 +1,7 @@
-<div class="tabs">
-  <ul>
-    <li *ngFor="let tab of tabs; let i = index" [class.active]="i === selectedIndex">
-      <a (click)="selectTab(i)">Tab {{ i+1 }}</a>
-      <button class="close" (click)="closeTab(i)">X</button>
-    </li>
-  </ul>
-  <div class="tab-content-container">
-    <ng-container *ngFor="let tab of tabs; let i = index">
-      <div *ngIf="i === selectedIndex" class="tab-content">
-        <ng-container *ngTemplateOutlet="tab"></ng-container>
-      </div>
-    </ng-container>
-  </div>
-</div>
+<ul class="nav nav-tabs">
+  <li *ngFor="let tab of tabs" (click)="selectTab(tab)" [class.active]="tab.active">
+    <a href="#">{{ tab.tabTitle }}</a>
+  </li>
+</ul>
+
+<ng-content></ng-content>

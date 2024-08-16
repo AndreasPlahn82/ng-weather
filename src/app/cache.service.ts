@@ -43,18 +43,14 @@ export class CacheService {
     this.saveCache(cache);
   }
   
-  clear(): void {
-    localStorage.removeItem(this.cacheKey);
-  }
-  
   // Read from the cache store (localstorage)
-  private getCache(): { [key: string]: CachedItem<any> } {
+  private getCache<T>(): { [key: string]: CachedItem<T> } {
     const cache = localStorage.getItem(this.cacheKey);
-    return cache ? JSON.parse(cache) : {};
+    return cache ? JSON.parse(cache) as { [key: string]: CachedItem<T> } : {};
   }
   
   // Save to the cache store (localstorage)
-  private saveCache(cache: { [key: string]: CachedItem<any> }): void {
+  private saveCache<T>(cache: { [key: string]: CachedItem<T> }): void {
     localStorage.setItem(this.cacheKey, JSON.stringify(cache));
   }
 }

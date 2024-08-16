@@ -64,7 +64,7 @@ export class WeatherService {
   }
   
   getCurrentConditions(locations: string[]): Signal<ConditionsAndZip[]> {
-    if (locations.length > 0) {
+    if (locations.length > 0 && this.currentConditions().length === 0) {
       locations.forEach(zipcode => this.addCurrentConditions(zipcode));
     }
     return this.currentConditions.asReadonly();

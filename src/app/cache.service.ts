@@ -46,7 +46,8 @@ export class CacheService {
   // Read from the cache store (localstorage)
   private getCache<T>(): { [key: string]: CachedItem<T> } {
     const cache = localStorage.getItem(this.cacheKey);
-    return cache ? JSON.parse(cache) as { [key: string]: CachedItem<T> } : {};
+    const parsedCache = JSON.parse(cache) as { [key: string]: CachedItem<T> };
+    return cache ? parsedCache : {};
   }
   
   // Save to the cache store (localstorage)
